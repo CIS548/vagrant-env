@@ -1,0 +1,57 @@
+## -*- mode: ruby -*-
+## vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+    config.vm.box = "ubuntu/focal64"
+    config.vm.box_check_update = false
+
+    config.vm.hostname = "cit595Dev"
+
+    ## Provisioning
+    config.vm.provision "shell", inline: <<-SHELL
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+
+        wget -O /home/vagrant/.vimrc https://raw.githubusercontent.com/CIS380/gists/master/example_vimrc.txt
+
+        sudo add-apt-repository ppa:jonathonf/vim
+        sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main"
+
+        sudo apt-get update
+        sudo apt-get -y upgrade
+        sudo apt-get install -y emacs
+        sudo apt-get install -y clang-6.0
+        sudo apt-get install -y clang-format-6.0
+
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 100
+        sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-6.0 100
+
+        sudo apt-get install -y gdb
+        sudo apt-get install -y lldb-3.8
+
+        sudo apt-get install -y valgrind
+
+        sudo apt-get install -y vim
+        # # PlugInstall can be comment out if you are in win10 and vagrant quit during the initilization.
+        vim -c PlugInstall -c qa
+
+        sudo apt-get install -y tmux
+
+        sudo apt-get install -y make
+        sudo apt-get install -y gcc
+
+    SHELL
+
+    ## CPU & RAM
+    config.vm.provider "virtualbox" do |vb|
+        # By pass a known bug by setting file to serial port
+        # https://bugs.launchpad.net/cloud-images/+bug/1829625
+        vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+        vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+        # Setup memory and cups
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+        vb.memory = 2048
+        vb.cpus = 2
+    end
+
+    end
