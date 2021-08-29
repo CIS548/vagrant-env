@@ -18,10 +18,10 @@ Vagrant.configure(2) do |config|
         sudo apt-get -y upgrade
         sudo apt-get install -y virtualbox-guest-utils
         sudo apt-get install -y emacs
-        sudo apt-get install -y clang-6.0
-        sudo apt-get install -y clang-format-6.0
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 100
-        sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-6.0 100
+        sudo apt-get install -y clang-10.0
+        sudo apt-get install -y clang-format-10
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100
+        sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-10.0 100
         sudo apt-get install -y gdb
         sudo apt-get install -y lldb-3.8
         sudo apt-get install -y valgrind
