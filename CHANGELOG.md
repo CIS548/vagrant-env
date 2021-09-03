@@ -1,7 +1,10 @@
 # Changelog
 
 ## [Unreleased]
-- 
+-
+
+## 1.0.3 - 2021.09.02
+- Fix typo with clang-10 install 
 
 ## 1.0.2 - 2021.08.29
 ### Changed
